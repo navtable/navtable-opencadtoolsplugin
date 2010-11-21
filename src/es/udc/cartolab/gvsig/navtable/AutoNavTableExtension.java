@@ -48,7 +48,6 @@ public class AutoNavTableExtension extends Extension {
 	private final URL offIcon = this.getClass().getClassLoader().getResource("images/forms.png");
 	private final URL onIcon = this.getClass().getClassLoader().getResource("images/forms-active.png");
 
-	@Override
 	public void initialize() {
 
 		formsEnabled = getPreferences();
@@ -71,7 +70,6 @@ public class AutoNavTableExtension extends Extension {
 
 	}
 
-	@Override
 	public void execute(String actionCommand) {
 
 		//TODO set conf properties, internationalization and localization.
@@ -116,19 +114,16 @@ public class AutoNavTableExtension extends Extension {
 		}
 	}
 
-	@Override
 	public boolean isEnabled() {
 		return true;
 	}
 
-	@Override
 	public boolean isVisible() {
 		return true;
 	}
 
 	private class NTEndGeometryListener implements EndGeometryListener {
 
-		@Override
 		public void endGeometry(FLayer layer) {
 			if (layer instanceof FLyrVect) {
 				FLyrVect l = (FLyrVect) layer;
