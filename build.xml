@@ -47,7 +47,6 @@
 	  	    	<fileset dir="lib" includes="*"/>
 	  	</copy>
 		<copy todir="${dist}/images">
-			<fileset dir="images" includes="forms-active.png" />
 			<fileset dir="images" includes="forms.png" />
 		</copy>
 
