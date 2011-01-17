@@ -8,8 +8,14 @@
 	<extensions>
 		<extension class-name="es.udc.cartolab.gvsig.navtable.AutoNavTableExtension" description="AutoNavTable" active="true">
 			<tool-bar name="NavTable">
-				<action-tool icon="auto-navtable" tooltip="Activar/Desactivar NavTable automático"
-					action-command="PSVisual" position="2" name="auto-navtable"/>
+				<selectable-tool icon="auto-navtable" tooltip="Activar/Desactivar NavTable automático"
+					action-command="auto-navtable" position="2" name="auto-navtable" group="auto-navtable"/>
+			</tool-bar>
+		</extension>
+		<extension class-name="es.udc.cartolab.gvsig.navtable.EmptyExtension" description="AutoNavTable" active="true">
+			<tool-bar name="NavTable">
+				<selectable-tool icon="auto-navtable" tooltip="Activar/Desactivar NavTable automático"
+					action-command="empty" position="2" name="empty" group="auto-navtable"/>
 			</tool-bar>
 		</extension>
 	</extensions>

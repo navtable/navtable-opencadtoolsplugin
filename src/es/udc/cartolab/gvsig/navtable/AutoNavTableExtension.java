@@ -19,13 +19,11 @@ package es.udc.cartolab.gvsig.navtable;
 
 import java.net.URL;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-
 import com.iver.andami.PluginServices;
 import com.iver.andami.messages.NotificationManager;
 import com.iver.andami.plugins.Extension;
-import com.iver.andami.ui.mdiFrame.JToolBarButton;
+import com.iver.andami.ui.mdiFrame.JToolBarToggleButton;
+import com.iver.andami.ui.mdiFrame.MDIFrame;
 import com.iver.cit.gvsig.fmap.layers.FLayer;
 import com.iver.cit.gvsig.fmap.layers.FLyrVect;
 import com.iver.cit.gvsig.listeners.CADListenerManager;
@@ -45,8 +43,6 @@ public class AutoNavTableExtension extends Extension {
 	public static final String KEY_NAME = "es.udc.cartolab.gvsig.navtable";
 
 	private boolean formsEnabled = false;
-	private final URL offIcon = this.getClass().getClassLoader().getResource("images/forms.png");
-	private final URL onIcon = this.getClass().getClassLoader().getResource("images/forms-active.png");
 
 	public void initialize() {
 
@@ -63,9 +59,10 @@ public class AutoNavTableExtension extends Extension {
 
 	private void registerIcons() {
 
+		URL icon = this.getClass().getClassLoader().getResource("images/forms.png");
 		PluginServices.getIconTheme().registerDefault(
 				"auto-navtable",
-				onIcon
+				icon
 			);
 
 	}
@@ -78,14 +75,13 @@ public class AutoNavTableExtension extends Extension {
 			CADListenerManager.addEndGeometryListener(KEY_NAME, listener);
 			NotificationManager.addInfo("NavTable automático activado");
 			formsEnabled = true;
-			setIcon(onIcon, "Desactivar NavTable automático");
 		} else {
 			CADListenerManager.removeEndGeometryListener(KEY_NAME);
 			NotificationManager.addInfo("NavTable automático desactivado");
 			formsEnabled = false;
-			setIcon(offIcon, "Activar NavTable automático");
 		}
 
+		toggleButton(formsEnabled);
 		savePreferences(formsEnabled);
 
 	}
@@ -105,11 +101,17 @@ public class AutoNavTableExtension extends Extension {
 		xml.putProperty(LAUNCH_NAVTABLE_ON_CREATE_GEOMETRY_KEY_NAME, value);
 	}
 
-	private void setIcon(URL iconURL, String tooltip) {
-		JToolBarButton throwNTButton = (JToolBarButton) PluginServices.getMainFrame().getComponentByName("auto-navtable");
+	private void toggleButton(boolean pushed) {
+		String tooltip;
+		if (!pushed) {
+			((MDIFrame)PluginServices.getMainFrame()).setSelectedTool("auto-navtable", "empty");
+			tooltip = "Activar NavTable automático";
+		} else {
+			((MDIFrame)PluginServices.getMainFrame()).setSelectedTool("auto-navtable", "auto-navtable");
+			tooltip = "Desactivar NavTable automático";
+		}
+		JToolBarToggleButton throwNTButton = (JToolBarToggleButton) PluginServices.getMainFrame().getComponentByName("auto-navtable");
 		if (throwNTButton!=null) {
-			Icon icon = new ImageIcon(iconURL);
-			throwNTButton.setIcon(icon);
 			throwNTButton.setToolTip(tooltip);
 		}
 	}
@@ -139,16 +141,7 @@ public class AutoNavTableExtension extends Extension {
 
 	public void postInitialize() {
 
-			URL icon;
-			String tooltip;
-			if (formsEnabled) {
-				icon = onIcon;
-				tooltip = "Desactivar NavTable automático";
-			} else {
-				icon = offIcon;
-				tooltip = "Activar NavTable automático";
-			}
-			setIcon(icon, tooltip);
+			toggleButton(formsEnabled);
 
 	}
 
