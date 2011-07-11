@@ -102,19 +102,31 @@ public class AutoNavTableExtension extends Extension {
 	}
 
 	private void toggleButton(boolean pushed) {
-		String tooltip;
-		if (!pushed) {
-			((MDIFrame)PluginServices.getMainFrame()).setSelectedTool("auto-navtable", "empty");
-			tooltip = "Activar NavTable automático";
-		} else {
-			((MDIFrame)PluginServices.getMainFrame()).setSelectedTool("auto-navtable", "auto-navtable");
-			tooltip = "Desactivar NavTable automático";
-		}
-		JToolBarToggleButton throwNTButton = (JToolBarToggleButton) PluginServices.getMainFrame().getComponentByName("auto-navtable");
-		if (throwNTButton!=null) {
-			throwNTButton.setToolTip(tooltip);
-		}
-	}
+	        String tooltip;
+	        try {
+	            MDIFrame f = ((MDIFrame)PluginServices.getMainFrame());
+
+	            if (f.getSelectedTools() == null) {
+	        	f.setSelectedTools(f.getInitialSelectedTools());
+	            }
+
+	            if (!pushed) {
+	        	f.setSelectedTool("auto-navtable", "empty");
+	        	tooltip = "Activar NavTable automático";
+	            } else {
+	        	f.setSelectedTool("auto-navtable", "auto-navtable");
+	        	tooltip = "Desactivar NavTable automático";
+	            }
+	            JToolBarToggleButton throwNTButton = (JToolBarToggleButton) f.getComponentByName("auto-navtable");
+	            if (throwNTButton!=null) {
+	        	throwNTButton.setToolTip(tooltip);
+	            }
+	        } catch (ClassCastException e) {
+	            e.printStackTrace();
+	        }
+
+	    }
+
 
 	public boolean isEnabled() {
 		return true;
@@ -140,9 +152,7 @@ public class AutoNavTableExtension extends Extension {
 	}
 
 	public void postInitialize() {
-
-			toggleButton(formsEnabled);
-
+	    toggleButton(formsEnabled);
 	}
 
 }
