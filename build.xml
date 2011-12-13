@@ -43,9 +43,6 @@
 	</target>
 
 	<target name="copy-data-files">
-		<copy todir="${dist}/lib">
-	  	    	<fileset dir="lib" includes="*"/>
-	  	</copy>
 		<copy todir="${dist}/images">
 			<fileset dir="images" includes="forms.png" />
 		</copy>
