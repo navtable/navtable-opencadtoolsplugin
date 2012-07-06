@@ -1,4 +1,4 @@
-<project name="extNavigationTable" default="generate-without-source" basedir=".">
+<project name="extCADNTPlugin" default="generate-without-source" basedir=".">
 	<description>
     	NavTable plugin for OpenCADTools
     </description>
